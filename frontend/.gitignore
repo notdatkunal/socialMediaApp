@@ -1,0 +1,32 @@
+node_modules/
+.expo/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+.env
+.env.local
+*.log
+
+# macOS
+.DS_Store
+*.pem
+
+# Android
+*.apk
+*.aab
+*.dex
+local.properties
+.gradle/
+build/
+
+# iOS
+*.xcworkspace
+!default.xcworkspace
+*.xcuserstate
+Pods/

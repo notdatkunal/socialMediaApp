@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Social Media App",
+    "slug": "social-media-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "backgroundColor": "#1a1a2e"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.socialmedia.app"
+    },
+    "android": {
+      "package": "com.socialmedia.app"
+    }
+  }
+}
