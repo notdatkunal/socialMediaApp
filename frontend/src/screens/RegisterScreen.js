@@ -7,34 +7,32 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  ActivityIndicator,
   Alert,
+  ActivityIndicator,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../context/AuthContext";
-import { register } from "../api/auth";
 
-export default function RegisterScreen() {
+export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
-  const navigation = useNavigation();
+  const { register } = useAuth();
 
   const handleRegister = async () => {
-    if (!email.trim() || !username.trim() || !password) {
+    const e = email.trim().toLowerCase();
+    const u = username.trim();
+    if (!e || !u || !password) {
       Alert.alert("Error", "Please fill email, username and password.");
       return;
     }
     if (password.length < 6) {
-      Alert.alert("Error", "Password should be at least 6 characters.");
+      Alert.alert("Error", "Password must be at least 6 characters.");
       return;
     }
     setLoading(true);
     try {
-      const { user, access_token } = await register(email.trim(), username.trim(), password);
-      await signIn(user, access_token);
+      await register(e, u, password);
     } catch (err) {
       Alert.alert("Registration failed", err.message || "Could not create account.");
     } finally {
@@ -48,6 +46,9 @@ export default function RegisterScreen() {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <View style={styles.card}>
+        <Text style={styles.title}>Create account</Text>
+        <Text style={styles.subtitle}>Join the community</Text>
+
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -85,11 +86,14 @@ export default function RegisterScreen() {
           {loading ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text style={styles.buttonText}>Create account</Text>
+            <Text style={styles.buttonText}>Sign up</Text>
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.link} onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={styles.link}
+          onPress={() => navigation.navigate("Login")}
+        >
           <Text style={styles.linkText}>Already have an account? Sign in</Text>
         </TouchableOpacity>
       </View>
@@ -100,12 +104,12 @@ export default function RegisterScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#16213e",
+    backgroundColor: "#1a1a2e",
     justifyContent: "center",
     padding: 24,
   },
   card: {
-    backgroundColor: "#1a1a2e",
+    backgroundColor: "#16213e",
     borderRadius: 16,
     padding: 28,
     shadowColor: "#000",
@@ -114,12 +118,23 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 8,
   },
+  title: {
+    fontSize: 28,
+    fontWeight: "700",
+    color: "#eee",
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#a0a0a0",
+    marginBottom: 24,
+  },
   input: {
-    backgroundColor: "#0f0f1a",
+    backgroundColor: "#0f3460",
     borderRadius: 12,
     padding: 16,
     fontSize: 16,
-    color: "#eee",
+    color: "#fff",
     marginBottom: 14,
   },
   button: {
@@ -134,7 +149,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "600",
   },
   link: {

@@ -7,29 +7,26 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  ActivityIndicator,
   Alert,
+  ActivityIndicator,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../context/AuthContext";
-import { login } from "../api/auth";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
-  const navigation = useNavigation();
+  const { login } = useAuth();
 
   const handleLogin = async () => {
-    if (!email.trim() || !password) {
+    const e = email.trim().toLowerCase();
+    if (!e || !password) {
       Alert.alert("Error", "Please enter email and password.");
       return;
     }
     setLoading(true);
     try {
-      const { user, access_token } = await login(email.trim(), password);
-      await signIn(user, access_token);
+      await login(e, password);
     } catch (err) {
       Alert.alert("Login failed", err.message || "Invalid email or password.");
     } finally {
@@ -92,12 +89,12 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#16213e",
+    backgroundColor: "#1a1a2e",
     justifyContent: "center",
     padding: 24,
   },
   card: {
-    backgroundColor: "#1a1a2e",
+    backgroundColor: "#16213e",
     borderRadius: 16,
     padding: 28,
     shadowColor: "#000",
@@ -115,14 +112,14 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     color: "#a0a0a0",
-    marginBottom: 28,
+    marginBottom: 24,
   },
   input: {
-    backgroundColor: "#0f0f1a",
+    backgroundColor: "#0f3460",
     borderRadius: 12,
     padding: 16,
     fontSize: 16,
-    color: "#eee",
+    color: "#fff",
     marginBottom: 14,
   },
   button: {
@@ -137,7 +134,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "600",
   },
   link: {

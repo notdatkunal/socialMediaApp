@@ -4,17 +4,16 @@
     "slug": "social-media-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "splash": {
       "backgroundColor": "#1a1a2e"
     },
-    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.socialmedia.app"
+      "bundleIdentifier": "com.socialmediaapp"
     },
     "android": {
-      "package": "com.socialmedia.app"
+      "package": "com.socialmediaapp"
     }
   }
 }

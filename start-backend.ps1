@@ -1,21 +1,23 @@
-# Start Flask backend (Social Media API)
+# Start Flask backend (social media API)
 # Run from repo root: .\start-backend.ps1
 
-$BackendDir = Join-Path $PSScriptRoot "backend"
-Set-Location $BackendDir
+$backendDir = Join-Path $PSScriptRoot "backend"
+if (-not (Test-Path $backendDir)) {
+    Write-Error "Backend folder not found: $backendDir"
+    exit 1
+}
 
-if (-not (Test-Path "venv")) {
+Set-Location $backendDir
+
+$venvPath = Join-Path $backendDir "venv"
+if (-not (Test-Path $venvPath)) {
     Write-Host "Creating virtual environment..."
     python -m venv venv
 }
-& "$BackendDir\venv\Scripts\Activate.ps1"
-if (-not $?) {
-    Write-Host "Trying alternative activation..."
-    & "$BackendDir\venv\Scripts\activate"
-}
+& (Join-Path $venvPath "Scripts\Activate.ps1")
 
-Write-Host "Installing dependencies if needed..."
-pip install -q -r requirements.txt
+Write-Host "Installing dependencies..."
+pip install -r requirements.txt -q
 
-Write-Host "Starting Flask server at http://localhost:5000"
+Write-Host "Starting Flask server on http://localhost:5000"
 python run.py
